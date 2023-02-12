@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: gateway_service
+    environment:
+      - KAFKA_CONECT_URL=${KAFKA_CONECT_URL}
+      - API_PORT=${API_PORT}
+    build:
+      context: .
+      dockerfile: "./docker/${ENVIRONMENT}/dockerfile"
+    volumes:
+      - .:/app
+      - /app/node_modules
+

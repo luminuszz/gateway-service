@@ -1,0 +1,21 @@
+FROM node:alpine
+
+RUN mkdir -p app
+
+WORKDIR app
+
+COPY ../../package.json .
+
+COPY ../../yarn.lock .
+
+RUN yarn install
+
+RUN yarn global add pm2
+
+COPY ../../. .
+
+RUN yarn build
+
+VOLUME ["/app/dist"]
+
+CMD ["pm2-runtime", "dist/main.js"]
