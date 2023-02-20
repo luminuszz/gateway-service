@@ -1,7 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { FindAllUnreadResponseDto } from './dto/find-all-unread-response.dto';
-import { FindComicCapByUrlEvent } from './dto/find-comicby-url-event.dto';
 import { KafkaService } from '../messaging/kafka.service';
 
 @Injectable()
@@ -16,18 +14,7 @@ export class TaskService {
   async startComicsJobsTask() {
     this.logger.log('Start comics jobs task');
 
-    this.kafka
-      .send('document.findAllUnread', {})
-      .subscribe((response: FindAllUnreadResponseDto[]) => {
-        const commics = response.map<FindComicCapByUrlEvent>(({ props }) => ({
-          url: props.url,
-          name: props.name,
-          cap: props.cap,
-          id: props.id,
-        }));
-
-        this.kafka.emit('tasks.jobs.findForNewChapters', commics);
-      });
+    this.kafka.emit('tasks.jobs.findForNewChapters', null);
   }
 
   @Cron(CronExpression.EVERY_2_HOURS)
