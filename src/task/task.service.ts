@@ -14,7 +14,7 @@ export class TaskService {
   async startComicsJobsTask() {
     this.logger.log('Start comics jobs task');
 
-    this.kafka.emit('tasks.jobs.findForNewChapters', null);
+    this.kafka.emit('tasks.jobs.findForNewChapters', {});
   }
 
   @Cron(CronExpression.EVERY_2_HOURS)
