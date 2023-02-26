@@ -11,7 +11,11 @@ import { ConfigService } from '@nestjs/config';
 
   app.enableCors({
     allowedHeaders: '*',
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:9000',
+    ],
   });
 
   app.enableVersioning({
