@@ -8,7 +8,7 @@ export class TaskService {
 
   private logger = new Logger(TaskService.name);
 
-  @Cron(CronExpression.EVERY_30_MINUTES, {
+  @Cron(CronExpression.EVERY_6_MONTHS, {
     timeZone: 'America/Bahia',
   })
   async startComicsJobsTask() {
