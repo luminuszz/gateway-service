@@ -15,6 +15,7 @@ import { ConfigService } from '@nestjs/config';
       'http://localhost:3000',
       'http://localhost:3001',
       'http://localhost:9000',
+      'http://localhost:3008',
     ],
   });
 
