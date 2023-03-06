@@ -17,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
       'http://localhost:9000',
       'http://localhost:3008',
     ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
 
   app.enableVersioning({
