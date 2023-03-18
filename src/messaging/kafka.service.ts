@@ -1,4 +1,3 @@
-import { ClientKafka } from '@nestjs/microservices';
 import {
   Injectable,
   Logger,
@@ -6,6 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
 export class KafkaService
@@ -16,7 +16,7 @@ export class KafkaService
     super({
       client: {
         clientId: 'gateway-service-client',
-        brokers: [config.get<string>('KAFKA_CONECT_URL')],
+        brokers: [config.get<string>('KAFKA_CONNECT_URL')],
         connectionTimeout: 5000,
         retry: {
           retries: 5,

@@ -1,8 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Transport } from '@nestjs/microservices';
 import { Logger, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { Transport } from '@nestjs/microservices';
+import { AppModule } from './app.module';
 
 (async () => {
   const logger = new Logger('Apllication context', { timestamp: true });
@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 
   app.enableCors({
     allowedHeaders: '*',
+    exposedHeaders: [],
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
@@ -31,11 +32,22 @@ import { ConfigService } from '@nestjs/config';
     options: {
       client: {
         clientId: 'gateway-service-client',
+
+        brokers: [process.env.KAFKA_CONNECT_URL],
+
         retry: {
-          retries: 2,
+          retries: 5,
+          maxRetryTime: 5000,
+          multiplier: 2,
         },
 
-        brokers: [configService.get('KAFKA_CONECT_URL')],
+        ssl: true,
+        sasl: {
+          username: process.env.KAFKA_USERNAME,
+          password: process.env.KAFKA_PASSWORD,
+          mechanism: 'plain',
+        },
+        reauthenticationThreshold: 45000,
       },
 
       consumer: {
