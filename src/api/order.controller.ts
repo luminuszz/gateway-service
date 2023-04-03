@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { map } from 'rxjs/operators';
+import { KafkaService } from '../messaging/kafka.service';
 import { CreateOrderDto } from './dto/create-order-.dto';
 import { RefreshOrderTrakingDto } from './dto/refresh-order-traking.dto';
-import { map } from 'rxjs/operators';
 import { Order, parseOrder } from './models/order.model';
-import { KafkaService } from '../messaging/kafka.service';
 
 @Controller({
   version: '1',

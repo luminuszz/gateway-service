@@ -1,4 +1,4 @@
-import { compareAsc, parseISO } from 'date-fns';
+import { compareDesc, parseISO } from 'date-fns';
 
 export type Order = {
   _id: string;
@@ -10,8 +10,12 @@ export type Order = {
     isDelivered: boolean;
   };
   trakings: {
-    recipient_traking_created_at: string;
-    message: string;
+    _id: string;
+    props: {
+      recipient_traking_created_at: string;
+      message: string;
+      description?: string;
+    };
   }[];
 };
 type OrdermModel = {
@@ -21,13 +25,14 @@ type OrdermModel = {
   status: string;
   date: string;
   isDelivered: boolean;
+  lastDescription?: string;
 };
 
 export const parseOrder = ({ props, _id, trakings }: Order): OrdermModel => {
   const [traking] = trakings.sort((a, b) =>
-    compareAsc(
-      parseISO(a.recipient_traking_created_at),
-      parseISO(b.recipient_traking_created_at),
+    compareDesc(
+      parseISO(a.props.recipient_traking_created_at),
+      parseISO(b.props.recipient_traking_created_at),
     ),
   );
 
@@ -36,7 +41,8 @@ export const parseOrder = ({ props, _id, trakings }: Order): OrdermModel => {
     date: props.date,
     isDelivered: props.isDelivered,
     name: props?.name || '',
-    status: traking?.message || '',
+    status: traking?.props.message || '',
     traking_code: props.traking_code,
+    lastDescription: traking?.props?.description || '',
   };
 };

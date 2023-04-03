@@ -26,6 +26,13 @@ export class KafkaService
             return true;
           },
         },
+        ssl: true,
+        sasl: {
+          username: config.get<string>('KAFKA_USERNAME'),
+          password: config.get<string>('KAFKA_PASSWORD'),
+          mechanism: 'plain',
+        },
+        reauthenticationThreshold: 45000,
       },
 
       consumer: {
@@ -38,6 +45,7 @@ export class KafkaService
     this.subscribeToResponseOf('document.findAllWithUnfollowStatus');
     this.subscribeToResponseOf('document.getById');
     this.subscribeToResponseOf('traking.find-all-orders');
+    this.subscribeToResponseOf('traking.find-all-pending-orders');
 
     await this.connect();
   }

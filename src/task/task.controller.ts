@@ -14,4 +14,14 @@ export class TaskController {
   async syncTaskDatabaseJob() {
     await this.taskService.startSyncDatabaseBatch();
   }
+
+  @Get('refresh-orders')
+  async refreshOrderStatus() {
+    await this.taskService.startRefreshOrderStatusBatch();
+  }
+
+  @Get('refresh-class-room')
+  async refreshClassRoom() {
+    await this.taskService.startRefreshClassRoomJob();
+  }
 }
